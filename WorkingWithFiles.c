@@ -24,10 +24,15 @@ void str2arr(person *new, char *buffer){
 			buffer[i+80] = new->age[i];
 }
 
-void clearbuffer(person *new, char *buf){
+void clearbuffer(char *buf, int upto){
+	int i = 0;
+	upto = upto%86;
+	for(; i < upto; i++) buf[i] = 0;
+}
+
+void clearstruct(person *new){
 	int i = 0;
 	for(i = 0; i < 6; i++){
-		buf[i] = 0;
 		new->first[i] = 0;
 		new->last[i] = 0;
 		new->email[i] = 0;
@@ -35,14 +40,11 @@ void clearbuffer(person *new, char *buf){
 		new->age[i] = 0;
 	}
 	for(; i < 20; i++){
-		buf[i] = 0;
 		new->first[i] = 0;
 		new->last[i] = 0;
 		new->email[i] = 0;
 		new->nat[i] = 0;
 	}
-	for(; i < 85; i++)
-		buf[i] = 0;
 }
 
 int main(){
@@ -53,7 +55,7 @@ int main(){
 	printf("Type file name: ");
 	scanf("%s", arqname);
 	while(1){
-		printf("1) Create file\n2) Insert data\n3) Print all data\n4) Search by RRN\n5) Terminate\n");
+		printf("\n1) Create file\n2) Insert data\n3) Print all data\n4) Search by RRN\n5) Terminate\n");
 		scanf("%d", &op);
 		if(op == 1){
 			f = fopen(arqname, "wb");
@@ -61,9 +63,10 @@ int main(){
 			printf("File successfully created\n");
 		}
 		if(op == 2){
+			another = 'y';
 			while(another == 'y'){
-				clearbuffer(&new, buffer);
-				printf("Press enter after typing each field\nMax size of fields 20 caracs\nFirst Name: ");
+				clearstruct(&new);
+				printf("\nPress enter after typing each field\nMax size of fields 20 caracs\nFirst Name: ");
 				scanf("%s", new.first);
 				printf("Last Name: ");
 				scanf("%s", new.last);
@@ -74,6 +77,7 @@ int main(){
 				printf("Age: ");
 				scanf("%s", new.age);
 
+				clearbuffer(buffer, 85);
 				str2arr(&new, buffer);
 
 				f = fopen(arqname, "a+b");
@@ -90,19 +94,27 @@ int main(){
 			f = fopen(arqname, "r+b");
 			fseek(f, 0, SEEK_END);
 			int size = ftell(f)/85;
-			fseek(f, 0, SEEK_SET);
-			for(i = 0; i < size; i++){
-				printf("RRN: %d\n", rrn++);
-				fread(&buffer, 20, 1, f);
-				printf("Name: %s ", buffer);
-				fread(&buffer, 20, 1, f);
-				printf("%s\n", buffer);
-				fread(&buffer, 20, 1, f);
-				printf("Email: %s\n", buffer);
-				fread(&buffer, 20, 1, f);
-				printf("Nationality: %s\n", buffer);
-				fread(&buffer, 5, 1, f);
-				printf("Age: %s\n\n", buffer);
+			if(ftell(f) == 0) printf("Empty file\n");
+			else{
+				fseek(f, 0, SEEK_SET);
+				for(i = 0; i < size; i++){
+					printf("RRN:\t\t%d\n", rrn++);
+					clearbuffer(buffer, 21);
+					fread(&buffer, 1, 20, f);
+					printf("Name:\t\t%s ", buffer);
+					clearbuffer(buffer, 21);
+					fread(&buffer, 1, 20, f);
+					printf("%s\n", buffer);
+					clearbuffer(buffer, 21);
+					fread(&buffer, 1, 20, f);
+					printf("Email:\t\t%s\n", buffer);
+					clearbuffer(buffer, 21);
+					fread(&buffer, 1, 20, f);
+					printf("Nationality:\t%s\n", buffer);
+					clearbuffer(buffer, 6);
+					fread(&buffer, 1, 5, f);
+					printf("Age:\t\t%s\n\n", buffer);
+				}
 			}
 			fclose(f);
 		}
@@ -115,17 +127,22 @@ int main(){
 			int size = ftell(f)/85;
 			if(rrn >= 0 && rrn < size){
 				fseek(f, rrn*85, SEEK_SET);
-				printf("RRN: %d\n", rrn);
-				fread(&buffer, 20, 1, f);
-				printf("Name: %s ", buffer);
-				fread(&buffer, 20, 1, f);
+				printf("RRN:\t\t%d\n", rrn);
+				clearbuffer(buffer, 21);
+				fread(&buffer, 1, 20, f);
+				printf("Name:\t\t%s ", buffer);
+				clearbuffer(buffer, 21);
+				fread(&buffer, 1, 20, f);
 				printf("%s\n", buffer);
-				fread(&buffer, 20, 1, f);
-				printf("Email: %s\n", buffer);
-				fread(&buffer, 20, 1, f);
-				printf("Nationality: %s\n", buffer);
-				fread(&buffer, 5, 1, f);
-				printf("Age: %s\n\n", buffer);
+				clearbuffer(buffer, 21);
+				fread(&buffer, 1, 20, f);
+				printf("Email:\t\t%s\n", buffer);
+				clearbuffer(buffer, 21);
+				fread(&buffer, 1, 20, f);
+				printf("Nationality:\t%s\n", buffer);
+				clearbuffer(buffer, 6);
+				fread(&buffer, 1, 5, f);
+				printf("Age:\t\t%s\n\n", buffer);
 			}
 			else{
 				printf("RRN %d not found\n", rrn);
