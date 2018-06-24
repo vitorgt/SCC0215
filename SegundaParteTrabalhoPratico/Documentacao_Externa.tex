@@ -1,0 +1,351 @@
+% ------------------------------------------------------------------------
+% ------------------------------------------------------------------------
+% abnTeX2: Modelo de Relatório Técnico/Acadêmico em conformidade com 
+% ABNT NBR 10719:2015 Informação e documentação - Relatório técnico e/ou
+% científico - Apresentação
+% Versão mais enxuta para disciplina de Organização de Arquivos 2018
+% ------------------------------------------------------------------------ 
+% ------------------------------------------------------------------------
+
+\documentclass[
+	% -- opções da classe memoir --
+	12pt,				% tamanho da fonte
+	openany,			% capítulos começam em qualquer pagina
+	twoside,			% para impressão em recto e verso. Oposto a oneside
+	a4paper,			% tamanho do papel. 
+	% -- opções da classe abntex2 --
+	%chapter=TITLE,		% títulos de capítulos convertidos em letras maiúsculas
+	%section=TITLE,		% títulos de seções convertidos em letras maiúsculas
+	%subsection=TITLE,	% títulos de subseções convertidos em letras maiúsculas
+	%subsubsection=TITLE,% títulos de subsubseções convertidos em letras maiúsculas
+	% -- opções do pacote babel --
+	english,			% idioma adicional para hifenização
+	french,				% idioma adicional para hifenização
+	spanish,			% idioma adicional para hifenização
+	brazil,				% o último idioma é o principal do documento
+	]{abntex2}
+
+
+% ---
+% PACOTES
+% ---
+
+% ---
+% Pacotes fundamentais 
+% ---
+\usepackage{lmodern}			% Usa a fonte Latin Modern
+\usepackage[T1]{fontenc}		% Selecao de codigos de fonte.
+\usepackage[utf8]{inputenc}		% Codificacao do documento (conversão automática dos acentos)
+\usepackage{indentfirst}		% Indenta o primeiro parágrafo de cada seção.
+\usepackage{color}				% Controle das cores
+\usepackage{graphicx}			% Inclusão de gráficos
+\usepackage{microtype} 			% para melhorias de justificação
+\usepackage{hyperref}
+% ---
+
+% ---
+% Pacotes adicionais, usados no anexo do modelo de folha de identificação
+% ---
+\usepackage{multicol}
+\usepackage{multirow}
+% ---
+
+% ---
+% Pacotes de citações
+% ---
+\usepackage[brazilian,hyperpageref]{backref}	 % Paginas com as citações na bibl
+\usepackage[alf]{abntex2cite}	% Citações padrão ABNT
+
+% --- 
+% CONFIGURAÇÕES DE PACOTES
+% --- 
+
+% ---
+% Configurações do pacote backref
+% Usado sem a opção hyperpageref de backref
+\renewcommand{\backrefpagesname}{Citado na(s) página(s):~}
+% Texto padrão antes do número das páginas
+\renewcommand{\backref}{}
+% Define os textos da citação
+\renewcommand*{\backrefalt}[4]{
+	\ifcase #1 %
+		Nenhuma citação no texto.%
+	\or
+		Citado na página #2.%
+	\else
+		Citado #1 vezes nas páginas #2.%
+	\fi}%
+% ---
+
+% ---
+% Informações de dados para CAPA e FOLHA DE ROSTO
+% ---
+% colocar o título aqui (por exemplo, Documentação Externa Implementação B*-tree)
+\titulo{Segundo Trabalho Prático de Organização de Arquivos - árvore B Virtual}
+\autor{Fabio Fogarin Destro (10284667) \and Paulo A. de Oliveira Carneiro (10295304) \and Renata Vinhaga dos Anjos (10295263) \and Vítor H. Gratiere Torres (102849552)} %nomes dos integrantes do grupo aqui
+\local{Universidade de São Paulo
+
+Instituto de Ciências Matemáticas e Computação
+
+Bacharelado em Ciências da Computação
+
+Departamento de Ciências de Computação
+
+SCC0215 - Organização de Arquivos
+
+Professora Dra. Cristina Dutra de Aguiar Ciferri
+
+24 de Junho de 2018, São Carlos, SP}
+\data{}
+\instituicao{%
+  Universidade de São Paulo -- USP
+  \par
+  Instituto de Ciências Matemáticas e Computação -- ICMC
+  \par
+  Bacharelado em Ciências da Computação}
+\tipotrabalho{Documentação Externa}
+% O preambulo deve conter o objetivo, 
+% o nome da instituição e a área de concentração 
+\preambulo{Praticar conceitos aprendidos em aulas de Organização de Arquivos, na Universidade de São Paulo}
+% ---
+
+% ---
+% Configurações de aparência do PDF final
+
+% alterando o aspecto da cor azul
+\definecolor{blue}{RGB}{41,5,195}
+
+% informações do PDF
+\makeatletter
+\hypersetup{
+     	%pagebackref=true,
+		pdftitle={\@title}, 
+		pdfauthor={\@author},
+    	pdfsubject={\imprimirpreambulo},
+	    pdfcreator={LaTeX with abnTeX2},
+		pdfkeywords={abnt}{latex}{abntex}{abntex2}{relatório técnico}, 
+		colorlinks=true,       		% false: boxed links; true: colored links
+    	linkcolor=blue,          	% color of internal links
+    	citecolor=blue,        		% color of links to bibliography
+    	filecolor=magenta,      		% color of file links
+		urlcolor=blue,
+		bookmarksdepth=4
+}
+\makeatother
+% --- 
+
+% --- 
+% Espaçamentos entre linhas e parágrafos 
+% --- 
+
+% O tamanho do parágrafo é dado por:
+\setlength{\parindent}{1.3cm}
+
+% Controle do espaçamento entre um parágrafo e outro:
+\setlength{\parskip}{0.2cm}  % tente também \onelineskip
+
+% Não utiliza capítulos, pois no nosso caso não vai ter utilização
+\makeatletter
+\renewcommand{\thesection}{%
+  \ifnum\c@chapter<1 \@arabic\c@section
+  \else \thechapter.\@arabic\c@section
+  \fi
+}
+\makeatother
+
+% ---
+% compila o indice
+% ---
+\makeindex
+% ---
+
+% ----
+% Início do documento
+% ----
+\begin{document}
+
+% Seleciona o idioma do documento (conforme pacotes do babel)
+%\selectlanguage{english}
+\selectlanguage{brazil}
+
+% Retira espaço extra obsoleto entre as frases.
+\frenchspacing 
+
+% ----------------------------------------------------------
+% ELEMENTOS PRÉ-TEXTUAIS
+% ----------------------------------------------------------
+% \pretextual
+
+% ---
+% Capa
+% ---
+\imprimircapa
+% ---
+
+% ---
+% Folha de rosto
+% (o * indica que haverá a ficha bibliográfica)
+% ---
+%\imprimirfolhaderosto*
+% ---
+
+% ---
+% inserir o sumario
+% ---
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\cleardoublepage
+% ---
+
+
+% ----------------------------------------------------------
+% ELEMENTOS TEXTUAIS
+% ----------------------------------------------------------
+\textual
+
+% ----------------------------------------------------------
+% Introdução 
+% ----------------------------------------------------------
+\section{Introdução}
+
+Este trabalho consiste na extensão da primeira parte, em que foi feita a manipulação do arquivo de dados, com a inclusão de três funções: \verb|[10]|, \verb|[11]| e \verb|[12]|, que envolvem a utilização do arquivo de índice de árvore B + \textit{buffer-pool}. Dentre essas são: inserção de todos os registros acoplada a função \verb|[1]|, inserção de apenas um registro acoplada a função \verb|[6]| e busca.
+
+\textbf{Nota}: Neste trabalho não foram implementadas as funções \verb|[13]| e \verb|[14]| de remoção e atualização.
+
+O programa foi feito utilizando a linguagem \verb|C|, sendo compilado e testado no sistema operacional Linux (\verb|Ubuntu 16.04 lts|).
+
+\section{Macros}
+    Mais algumas substituições de sintaxe foram incluídas para facilitar o entendimento do código, com relação direta às equações para cálculo do \textit{byte offset} no arquivo de índice e auxílio nas funções da árvore B:
+    \begin{itemize}
+    \item \verb|ORDEM| - ordem da árvore B, que equivale ao número máximo de filhos de cada nó.
+    \item \verb|MAX_CHAVES| - número máximo de chaves que um nó pode ter (\verb|ORDEM - 1|).
+    \item \verb|TAM_PAG| - tamanho de um nó (página) na árvore B virtual (116 \textit{bytes} = 4 \textit{bytes} para o número de chaves atuais da página + 72 \textit{bytes} (\verb|MAX_CHAVES * (4 + 4)|) para o vetor de chaves e RRNs do arquivo de dados + 40 \textit{bytes} (\verb|ORDEM * 4|) para o vetor de “ponteiros” na árvore B virtual).
+    \item \verb|TAM_CABECALHO_B| - tamanho do cabeçalho do arquivo de índice (13 \textit{bytes} = 1 \textit{byte} para \textit{status} do arquivo + 4 \textit{bytes} para o RRN do nó raiz + 4 \textit{bytes} para a altura da árvore + 4 \textit{bytes} para o RRN da última página inserida no índice).
+    \item \verb|TAM_BUFFER| - número de páginas máximo que o \textit{buffer-pool} comporta.
+    \item \verb|NIL| - referência a vazio. Valor = \verb|-1|
+    \item \verb|T| - taxa de ocupação da árvore B (\verb|ORDEM / 2|)
+    \end{itemize}
+
+\section{Estruturas de Dados}
+    Utilizou-se de mais 4 \verb|structs| como auxílio e armazenamento temporário de dados para manipulação:
+    \subsection{De árvore B}
+        \begin{itemize}
+            \item \verb|Cabecalho_B|: contém o status do arquivo de índice, o RRN do nó raiz, a altura da árvore e o RRN do último nó inserido na árvore.
+            \item \verb|C_PR|: contém a chave (codEscola) e seu respectivo RRN para o arquivo de dados.
+            \item \verb|Pagina|: contém o número de chaves atual do nó (página), um vetor (tamanho fixo) de \verb|structs| \verb|C_PR| e outro vetor (tamanho fixo) de ponteiros para os nós filhos.
+        \end{itemize}
+    \subsection{De \textit{buffer-pool}}
+        \begin{itemize}
+            \item \verb|BufferPool|: contém o número de \textit{hits} (acertos) e \textit{misses} (não encontrados), o vetor (tamanho fixo) de RRNs das páginas  do arquivo de índice, um vetor (tamanho fixo) que indica se as páginas estão atualizadas ou não e um vetor (tamanho fixo) de \verb|structs| \verb|Pagina|.
+        \end{itemize}
+\section{Sobre \textit{buffer-pool}}\label{bufferpool}
+
+    \textit{Buffer-pool} mantém armazenado em \textit{RAM} um certo número de páginas do arquivo de índice (\verb|.bin|) afim de reduzir o número de acessos ao disco. Utilizou-se a política \textit{Least Recently Used} (\textit{LRU}) para substituições.
+    
+    O algoritmo do \textit{buffer-pool} foi inserido nas funções implementadas para diminuir o acesso ao disco. Essa ferramenta consiste na implementação de 3 funções:
+    
+    \subsection{\textit{Get}}
+        \begin{enumerate}
+            \item Percorre o \textit{buffer-pool}, procurando a página desejada, caso encontre incremente em um o valor de \textit{buffer hits} e pule para o passo 3.
+            \item Se não encontrou a página desejada, faça um acesso a disco carregando a página desejada em uma página auxiliar e chame a função \textit{put}, que irá inseri-la no \textit{buffer-pool}.
+            \item Retorne o conteúdo desta página.
+        \end{enumerate}
+    \subsection{\textit{Put}}
+        \begin{enumerate}
+            \item Percorre o \textit{buffer-pool}, procurando a página desejada, caso encontre mude o valor da \textit{flag} para \verb|1|.
+            \item Se o valor da variável auxiliar \textit{flag} for igual a zero, significa a página não foi encontrada, logo é necessário adicionar um \textit{buffer miss}. Nesse caso é verificado se o valor do RRN de \verb|‘i’| é igual a \verb|-1|, se sim significa que a o \textit{buffer-pool} ainda possui espaços vazios, logo a nova página é inserida nessa posição, que é a primeira posição vazia, caso o contrário o \textit{buffer-pool} está cheio e é preciso remover uma página seguindo a política de substituição \textit{LRU} para inserir a página desejada.
+            \item Se o valor da variável auxiliar \textit{flag} for igual a \verb|1| significa que a página já está inserida no \textit{buffer-pool}, então \textit{buffer hits} é incrementado e a página é atualizada e marcada como modificada.
+        \end{enumerate}
+    \subsection{\textit{Flush}}
+        \begin{enumerate}
+            \item Percorre o \textit{buffer-pool} e para cada página marcada como modificada, a página é escrita no arquivo de índice, utilizando o seu RRN.
+            \item Escreve em disco, no final do arquivo \verb|buffer-info.text|, as informações de \textit{buffer misses} e \textit{buffer hits}.
+        \end{enumerate}
+    
+    Tanto na função \textit{get} quanto na função \textit{put}, a função reorganiza é chamada, essa função é responsável por manter o \textit{buffer-pool} organizado, isto é, a raiz sempre na posição zero, e nas seguintes posições as páginas seguindo a ordem da menos recentemente utilizada até a mais recentemente utilizada, tornando assim possível aplicar a política de substituição \textit{LRU}, retirando do \textit{buffer} sempre o elemento menos recentemente utilizado.
+
+\section{Criação e preenchimento inicial da árvore B com \textit{buffer-pool}}\label{criab}
+
+    \verb|Função [10]| - Função acoplada dentro da função \verb|[1]| da primeira parte do trabalho. Inserção de uma chave (codEscola) no arquivo de índice árvore B com o RRN do seu registro no arquivo de dados.
+    
+    Na função \verb|[1]| são feitos(as):
+    \begin{enumerate}
+        \item Criação do arquivo de índice (\verb|.bin|), criação do seu cabeçalho definindo seu \textit{status} para inconsistente e criação do \textit{buffer-pool}.
+        \item Após a inserção de um registro no arquivo de dados, é chamada a inserção no arquivo de índice de árvore B virtual. Essa funcionalidade possui 3 funções principais de inserção: \textit{Btree\_Insert}, \textit{Insert\_Non\_Full} e \textit{Split}.
+        \item Atualiza o \textit{status} do arquivo de índice para consistente e o fecha.
+    \end{enumerate}
+    
+    \subsection{\textit{Btree\_Insert}}
+    
+        \begin{enumerate}
+            \item Lê os dados do cabeçalho do arquivo de índice e armazena na \verb|struct| auxiliar \verb|Cabecalho_B|.
+            \item Caso a árvore esteja vazia, ou seja, não tenha nó raiz, cria-se uma nova árvore inserindo a página raiz no \textit{buffer-pool}.
+            \item Se a árvore não está vazia, carrega-se a página raiz do \textit{buffer-pool}\footnote{Ao se referir do carregamento de páginas do \textit{buffer-pool}, subentende-se que as funções já descritas na \autoref{bufferpool} tratam do caso da página não estar presente nesse e ser preciso fazer o carregamento do arquivo. Não sendo necessário portanto, repetir o mesmo ponto nas funções seguintes.}. Verifica-se se ela está cheia. Se estiver, realiza-se o \textit{split} preventivo nessa e é chamada a função para busca do filho em que deve se inserir a chave (\textit{Insert\_Non\_Full}). Se não, apenas chama esta mesma função.
+            \item Atualiza o Cabeçalho.
+        \end{enumerate}
+    \subsection{\textit{Insert\_Non\_Full} (Recursiva)}
+    
+        \begin{enumerate}
+            \item Caso base: Verifica se a página (nó) atual é folha. Se for, faz uma busca sequencial para encontrar a posição correta de inserção da chave e seu RRN. Insere a página atualizada no \textit{buffer-pool} e finaliza.
+            \item Se a página atual não é folha, faz uma busca sequencial nas chaves para encontrar o filho correto para inserir a chave. Ao achá-lo, através do vetor de “ponteiros” (RRN do arquivo de índice) carrega a página filha correta do \textit{buffer-pool}.
+            \item Se a página carregada estiver cheia, é feito o \textit{split} preventivo no nó e a função \textit{Insert\_Non\_Full} é chamada para o novo filho correto (após o \textit{split}) para inserção da chave, esse que também é carregado do \textit{buffer-pool}. Se não, apenas chama a mesma função.
+        \end{enumerate}
+    
+    \subsection{\textit{Split}}
+        
+        \begin{enumerate}
+            \item Recebe o nó pai antigo (R) (nó que está cheio), o novo pai (S) e cria um novo filho (Z).
+            \item Z irá receber metade das chaves de R (taxa de ocupação - 1) com seus respectivos RRNs e se R não for folha, receberá metade de seus filhos (taxa de ocupação). R agora terá metade das suas chaves antigas (taxa de ocupação - 1).
+            \item S desloca seus filhos (“ponteiros”) e recebe Z como um deles (Z é uma nova página, portando seu RRN será o último RRN inserido na árvore B + 1), tal como desloca suas chaves e recebe a chave central de R que foi promovida.
+            \item As páginas R e S atualizadas e a nova página Z são carregadas para o \textit{buffer-pool}.
+        \end{enumerate}
+        
+        Após a finalização dessa funcionalidade, obtivemos os seguinte dados finais com a inserção dos 3.000 registros contidos no arquivo de \verb|dados.csv|:
+        
+        \begin{itemize}
+            \item RRN raiz: 312;
+            \item Altura árvore B: 5;
+            \item Ultimo RRN inserido: 746;
+            \item \textit{Page hit}: 17.785;
+            \item \textit{Page Fault}: 1.620.
+        \end{itemize}
+        
+\section{Inserção em árvore B com \textit{buffer-pool}}
+
+    \verb|Função [11]| - Funcionalidade acoplada dentro da função \verb|[6]|. Inserção de uma chave (codEscola) no arquivo de índice árvore B com o RRN do seu registro no arquivo de dados.
+    
+    Na função \verb|[6]| são feitos(as):
+    
+    \begin{enumerate}
+        \item Abertura do arquivo de índice (\verb|.bin|) definindo seu \textit{status} para inconsistente.
+        \item Após a inserção do registro no arquivo de dados, é chamada a inserção no arquivo de índice de árvore B virtual. Funcionalidade essa que já foi especificada na \autoref{criab}.
+        \item É dado \textit{flush} no \textit{buffer-pool}.
+        \item Atualiza o \textit{status} do arquivo de índice para consistente e o fecha.
+    \end{enumerate}
+    
+\section{Busca}
+
+    \verb|Função [12]| - Funcionalidade recebe uma chave (codEscola) e realiza uma busca no índice de árvore B
+    
+    \subsection{busca}
+        \begin{enumerate}
+            \item Chama a função buscaArvoreB passando como argumento o codEscola a ser buscado.
+            \item Atribui o valor de retorno da função buscaArvoreB à variável RRN.
+            \item Se o valor RRN for igual a \verb|-1|, o codEscola buscado não foi encontrado.
+            \item Caso o RRN não seja igual a \verb|-1|, abre o arquivo \verb|saida.bin|.
+            \item Realiza um \verb|fseek| nesse arquivo para ir até a posição do \textit{byte offset} (\verb|(RRN*TAM_REG)+| \verb|TAM_CABECALHO|) no arquivo.
+            \item Verifica se o registro nesta posição é válido, isto é, ainda não foi removido.
+            \item Se for um registro válido, imprime seu conteúdo, caso contrário imprime  registro inexistente.
+        \end{enumerate}
+    \subsection{buscaArvoreB}
+        \begin{enumerate}
+            \item Abre o arquivo de \verb|indice.bin| somente para operações de leitura.
+            \item Carrega o cabeçalho do arquivo.
+            \item Inicia o \textit{buffer-pool} e já insere a raiz da árvore no \textit{buffer}.
+            \item Enquanto a página auxiliar não for folha, procura a chave na página atual. 
+            \item Caso a chave seja encontrada, chama a função \textit{flush} para limpar o \textit{buffer}, fecha o arquivo \verb|indice.bin| retornando o RRN desejado.
+            \item Se a chave da página de \verb|‘i’| for maior que a chave a buscada, deve-se descer para o filho \verb|‘i’| da página, chamando a função \textit{get} para atualizar página atual para a página de RRN igual ao \verb|‘i’| filho, voltando então ao passo 4.
+            \item Se percorreu \verb|MAX_CHAVES| e não satisfez as condições 5 e 6, deve-se descer para o último filho da página, chamando a função \textit{get} para atualizar a página atual para a página de RRN igual ao \verb|‘i’| filho, voltando então ao passo 4.
+            \item Se chegou a esse passo, então o nó atual é folha, logo deve-se realizar uma busca sequencial pela chave. Se encontrar, chama a função \textit{flush} para limpar o \textit{buffer}, fecha o arquivo de índice (\verb|.bin|) e retorna o RRN desejado, caso contrário chama a função \textit{flush} para limpar o \textit{buffer}, fecha o arquivo de índice (\verb|.bin|) e retorna \verb|-1| para demonstrar que a árvore não contém essa chave.
+        \end{enumerate}
+\end{document}
